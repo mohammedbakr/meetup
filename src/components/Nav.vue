@@ -1,13 +1,13 @@
 <template>
   <nav>
     <v-toolbar flat dark>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer;">DevMeetup</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items v-for="item in items" :key="item.title" class="left hidden-sm-and-down">
-        <v-btn depressed router :to="item.link">
+        <v-btn text router :to="item.link">
           <v-icon left>{{ item.icon }}</v-icon>
           <span>{{ item.title }}</span>
         </v-btn>
@@ -37,7 +37,7 @@ export default {
       drawer: false,
       items: [
         { icon: "supervisor_account", title: "Show Meetups", link: "/meetups" },
-        { icon: "room", title: "Organize Meetups", link: "/meetup/new" },
+        { icon: "room", title: "Organize Meetup", link: "/meetup/new" },
         { icon: "person", title: "Profile", link: "/profile" },
         { icon: "face", title: "Sign Up", link: "/signup" },
         { icon: "lock_open", title: "Sing In", link: "/signin" }
