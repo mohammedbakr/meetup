@@ -2,10 +2,10 @@
   <v-container>
     <v-row justify="center">
       <v-col cols="6" class="text-sm-right">
-        <v-btn large text router to="/meetups" >Explore Meetups</v-btn>
+        <v-btn large text to="/meetups" >Explore Meetups</v-btn>
       </v-col>
       <v-col cols="6" class="text-sm-left">
-        <v-btn large text router to="/meetup/new">Organize meetup</v-btn>
+        <v-btn large text to="/meetup/new">Organize meetup</v-btn>
       </v-col>
     </v-row>
 
@@ -18,6 +18,8 @@
             :src="meetup.src"
             reverse-transition="fade-transition"
             transition="fade-transition"
+            style="cursor: pointer;"
+            @click="goToMeetup(meetup.id)"
           >
             <div class="title ">{{ meetup.title }}</div>
           </v-carousel-item>
@@ -42,6 +44,11 @@ export default {
         { id: 1, src: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg", title: "New York"},
         { id: 2, src: "https://content.thriveglobal.com/wp-content/uploads/2019/01/GettyImages-955441104.jpg", title: "Paris"},
       ]
+    }
+  },
+  methods: {
+    goToMeetup(id) {
+      this.$router.push(`/meetup/${id}`);
     }
   }
 }
