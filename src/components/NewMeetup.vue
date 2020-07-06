@@ -59,6 +59,21 @@
           </v-row>
           <v-row>
             <v-col>
+              <h3>Choose Date & Time</h3>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-date-picker dark v-model="date"></v-date-picker>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-time-picker dark v-model="time"></v-time-picker>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
               <v-btn type="submit" class="black white--text" :disabled="!formIsValid">Create Meetup</v-btn>
             </v-col>
           </v-row>
@@ -76,7 +91,9 @@ export default {
       title: '',
       location: '',
       image: '',
-      description: ''
+      description: '',
+      date: new Date().toISOString().substr(0, 10),
+      time: new Date()
     }
   },
   computed: {
@@ -85,6 +102,21 @@ export default {
               this.location !== '' &&
               this.image !== '' &&
               this.description !== ''
+    },
+    submitableDateTime() {
+      const date = new Date(this.date);
+      if (typeof this.time === 'string') {
+        const hours = this.time.match(/^(\d+)/)[1];
+        const minutes = this.time.match(/:(\d+)/)[1];
+
+        date.setHours(hours);
+        date.setMinutes(minutes);
+      } else {
+        date.setHours(this.time.getHours());
+        date.setMinutes(this.time.getMinutes());
+      }
+      console.log(date);
+      return date;
     }
   },
   methods: {
@@ -97,7 +129,7 @@ export default {
         location: this.location,
         image: this.image,
         description: this.description,
-        date: new Date()
+        date: this.submitableDateTime
       }
 
       this.$store.dispatch('createMeetup', meetup);

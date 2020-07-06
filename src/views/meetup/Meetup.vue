@@ -8,9 +8,9 @@
             height="400"
             :src="meetup.src"
           ></v-img>
-          <v-card-subtitle>{{ meetup.date }} - New york</v-card-subtitle>
+          <v-card-subtitle>{{ meetup.date | date }} - {{ meetup.location }}</v-card-subtitle>
           <v-card-text class="black--text">
-            <div>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsum vel odit dolor est cumque deleniti earum vero consequuntur quis, provident dolore quia velit optio quae tenetur labore voluptas quisquam minus.</div>
+            <div>{{ meetup.description }}</div>
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
