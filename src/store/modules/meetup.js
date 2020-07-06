@@ -25,9 +25,24 @@ const getters = {
   }
 };
 
-const actions = {};
+const actions = {
+  createMeetup: ({commit}, payload) => {
+    const meetup = {
+      title: payload.title,
+      location: payload.location,
+      src: payload.image,
+      description: payload.description,
+      date: payload.date,
+      id: '3'
+    }
 
-const mutations = {};
+    commit('meetups', meetup);
+  }
+};
+
+const mutations = {
+  meetups: (state, payload) => state.meetups.push(payload)
+};
 
 export default {
   state,

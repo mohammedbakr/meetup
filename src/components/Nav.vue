@@ -1,7 +1,7 @@
 <template>
   <nav>
     <v-toolbar flat dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer;">DevMeetup</router-link>
       </v-toolbar-title>
