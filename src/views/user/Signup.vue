@@ -1,11 +1,16 @@
 <template>
   <v-container>
+    <v-row v-if="error">
+      <v-col cols="12" sm="6" offset-sm="3">
+        <app-alert @dismissed="$store.dispatch('clearError')" :text="error.message" />
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="12" sm="6" offset-sm="3">
         <v-card>
           <v-card-text>
             <v-container>
-              <v-form @submit.prevent="onSubmit">
+              <v-form @submit.prevent="onSubmit" v-model="valid">
                 <v-row>
                   <v-col cols="12">
                     <v-text-field 
@@ -47,7 +52,19 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn dark type="submit">Sign Up</v-btn>
+                    <v-btn
+                      type="submit"
+                      :loading="loading"
+                      :disabled="loading"
+                      class="black white--text"
+                    >
+                      Sign Up
+                      <template v-slot:loader>
+                        <span class="custom-loader">
+                          <v-icon light>cached</v-icon>
+                        </span>
+                      </template>
+                    </v-btn>
                   </v-col>
                 </v-row>
               </v-form>
@@ -60,10 +77,13 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "Signup",
   data() {
     return {
+      valid: false,
       email: '',
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -77,11 +97,13 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      user:'user',
+      error: 'error',
+      loading: 'loading'
+    }),
     comparePasswords() {
       return this.password !== this.confirmPassword ? 'Passwords don\'t match' : true
-    },
-    user() {
-      return this.$store.getters.user
     }
   },
   watch: {

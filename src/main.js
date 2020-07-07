@@ -5,10 +5,12 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
 import DateFormat from './filters/date'
-
-Vue.filter('date', DateFormat);
+import Alert from './components/shared/Alert'
 
 Vue.config.productionTip = false
+
+Vue.filter('date', DateFormat);
+Vue.component('app-alert', Alert);
 
 new Vue({
   router,
