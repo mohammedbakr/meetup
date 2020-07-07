@@ -18,6 +18,16 @@ const actions = {
       commit('setUser', user)
     })
     .then(err => console.log(err))
+  },
+  signIn: ({commit}, payload) => {
+    firebase.auth().signInWithEmailAndPassword(payload.email, payload.password).then(res => {
+      const user = {
+        id: res.user.uid,
+        registeredMeetups: []
+      }
+      commit('setUser', user)
+    })
+    .then(err => console.log(err))
   }
 }
 

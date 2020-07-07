@@ -47,7 +47,7 @@
                 </v-row>
                 <v-row>
                   <v-col cols="12">
-                    <v-btn type="submit">Sign Up</v-btn>
+                    <v-btn dark type="submit">Sign Up</v-btn>
                   </v-col>
                 </v-row>
               </v-form>
