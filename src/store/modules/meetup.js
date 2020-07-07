@@ -2,11 +2,7 @@ const state = {
   meetups: [
     { id: "1", src: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg", title: "Meetup in New York", date: new Date(), location: "New York", description: "It's New York"},
     { id: "2", src: "https://content.thriveglobal.com/wp-content/uploads/2019/01/GettyImages-955441104.jpg", title: "Meetup in Paris", date: new Date(), location: "Paris", description: "It's Paris"},
-  ],
-  user: {
-    id: "1",
-    registeredMeetups: ["1"]
-  }
+  ]
 };
 
 const getters = {

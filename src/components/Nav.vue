@@ -1,6 +1,6 @@
 <template>
-  <nav>
-    <v-toolbar flat dark>
+  <nav class="mb-15">
+    <v-app-bar fixed dark>
       <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
       <v-toolbar-title>
         <router-link to="/" tag="span" style="cursor: pointer;">DevMeetup</router-link>
@@ -12,7 +12,7 @@
           <span>{{ item.title }}</span>
         </v-btn>
       </v-toolbar-items>
-    </v-toolbar>
+    </v-app-bar>
 
     <v-navigation-drawer dark app v-model="drawer">
       <v-list>
@@ -35,14 +35,27 @@ export default {
   data() {
     return {
       drawer: false,
-      items: [
-        { icon: "supervisor_account", title: "Show Meetups", link: "/meetups" },
-        { icon: "room", title: "Organize Meetup", link: "/meetup/new" },
-        { icon: "person", title: "Profile", link: "/profile" },
+    }
+  },
+  computed: {
+    items() {
+      let navItems = [
         { icon: "face", title: "Sign Up", link: "/signup" },
         { icon: "lock_open", title: "Sing In", link: "/signin" }
       ]
-    };
+      if (this.authinticatedUser) {
+        navItems = [
+          { icon: "supervisor_account", title: "Show Meetups", link: "/meetups" },
+          { icon: "room", title: "Organize Meetup", link: "/meetup/new" },
+          { icon: "person", title: "Profile", link: "/profile" },
+        ]
+      }
+      return navItems
+    },
+    authinticatedUser() {
+      return this.$store.getters.user !== null &&
+             this.$store.getters.user !== undefined
+    }
   }
 };
 </script>
