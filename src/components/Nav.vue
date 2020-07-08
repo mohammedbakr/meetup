@@ -6,10 +6,16 @@
         <router-link to="/" tag="span" style="cursor: pointer;">DevMeetup</router-link>
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-items v-for="item in items" :key="item.title" class="left hidden-sm-and-down">
+      <v-toolbar-items v-for="item in items" :key="item.title" class="hidden-sm-and-down">
         <v-btn text :to="item.link">
           <v-icon left>{{ item.icon }}</v-icon>
           <span>{{ item.title }}</span>
+        </v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items v-if="authinticatedUser" @click="onLogout" class="hidden-sm-and-down">
+        <v-btn text >
+          <v-icon left>exit_to_app</v-icon>
+          <span>Logout</span>
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
@@ -22,6 +28,14 @@
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-if="authinticatedUser" @click="onLogout">
+          <v-list-item-icon>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -55,6 +69,14 @@ export default {
     authinticatedUser() {
       return this.$store.getters.user !== null &&
              this.$store.getters.user !== undefined
+    }
+  },
+  methods: {
+    onLogout() {
+      this.$store.dispatch('logout')
+      if(this.$router.path !==  '/') {
+        this.$router.replace('/')
+      }
     }
   }
 };

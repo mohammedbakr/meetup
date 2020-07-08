@@ -25,13 +25,14 @@ const getters = {
 };
 
 const actions = {
-  createMeetup: ({commit}, payload) => {
+  createMeetup: ({commit, getters}, payload) => {
     const meetup = {
       title: payload.title,
       location: payload.location,
       src: payload.image,
       description: payload.description,
-      date: payload.date.toISOString()
+      date: payload.date.toISOString(),
+      creator_id: getters.user.id
     }
     firebase.database().ref('meetups').push(meetup)
       .then(data => {
@@ -40,7 +41,6 @@ const actions = {
           ...meetup,
           id: key
         });
-        console.log(data);
       })
       .catch(error => console.log(error))
   },
@@ -59,6 +59,7 @@ const actions = {
             src: obj[key].src,
             location: obj[key].location,
             date: obj[key].date,
+            creator_id: obj[key].creator_id
           })
         }
         commit('setMeetups', meetups);
