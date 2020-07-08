@@ -1,8 +1,9 @@
+import * as firebase from 'firebase'
+
 const state = {
-  meetups: [
-    { id: "1", src: "https://www.history.com/.image/ar_1:1%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTU3ODc5MDgyNjY5OTc1MjYz/new-york-city.jpg", title: "Meetup in New York", date: new Date(), location: "New York", description: "It's New York"},
-    { id: "2", src: "https://content.thriveglobal.com/wp-content/uploads/2019/01/GettyImages-955441104.jpg", title: "Meetup in Paris", date: new Date(), location: "Paris", description: "It's Paris"},
-  ]
+  meetups: [],
+  loading: false,
+  error: null
 };
 
 const getters = {
@@ -18,7 +19,9 @@ const getters = {
         return meetup.id == meetupId;
       })
     }
-  }
+  },
+  loadingMeetups: state => state.loading,
+  errorLoadingMeetups: state => state.error
 };
 
 const actions = {
@@ -28,16 +31,52 @@ const actions = {
       location: payload.location,
       src: payload.image,
       description: payload.description,
-      date: payload.date,
-      id: '3'
+      date: payload.date.toISOString()
     }
-
-    commit('meetups', meetup);
+    firebase.database().ref('meetups').push(meetup)
+      .then(data => {
+        const key = data.key;
+        commit('setMeetup', {
+          ...meetup,
+          id: key
+        });
+        console.log(data);
+      })
+      .catch(error => console.log(error))
+  },
+  loadMeetups: ({commit}) => {
+    commit('setLoading', true)
+    firebase.database().ref('meetups').once('value')
+      .then(data => {
+        commit('setLoading', false)
+        const meetups = [];
+        const obj = data.val();
+        for (const key in obj) {
+          meetups.push({
+            id: key,
+            title: obj[key].title,
+            description: obj[key].description,
+            src: obj[key].src,
+            location: obj[key].location,
+            date: obj[key].date,
+          })
+        }
+        commit('setMeetups', meetups);
+      })
+      .catch(error => {
+        commit('setLoading', false)
+        commit('setError', error)
+      })
   }
 };
 
 const mutations = {
-  meetups: (state, payload) => state.meetups.push(payload)
+  setMeetup: (state, payload) => state.meetups.push(payload),
+  setMeetups: (state, payload) => state.meetups = payload,
+  setLoading: (state, payload) => state.loading = payload,
+  setError: (state, payload) => state.error = payload,
+  clearError: state => state.error = null
+
 };
 
 export default {

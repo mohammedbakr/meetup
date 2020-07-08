@@ -9,7 +9,14 @@
       </v-col>
     </v-row>
 
-    <v-row>
+    <!-- circular loader when fetching data from the server -->
+    <v-row v-if="loading">
+      <v-col cols="12" align="center">
+        <v-progress-circular indeterminate width="5" size="60"></v-progress-circular>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="!loading">
       <v-col cols="12">
         <v-carousel>
           <v-carousel-item
@@ -21,7 +28,7 @@
             style="cursor: pointer;"
             @click="goToMeetup(meetup.id)"
           >
-            <div class="title ">{{ meetup.title }}</div>
+            <div class="title text-center">{{ meetup.title }}</div>
           </v-carousel-item>
         </v-carousel>
       </v-col>
@@ -47,7 +54,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      meetups: 'featuredMeetups'
+      meetups: 'featuredMeetups',
+      loading: 'loadingMeetups'
     })
   }
 }
@@ -55,9 +63,7 @@ export default {
 
 <style scoped>
 .title {
-  text-align: center;
-  bottom: 50px;
   background-color: rgba(0, 0, 0, 0.3);
-  padding: 20px;
+  padding: 10px;
 }
 </style>
