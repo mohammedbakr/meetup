@@ -7,53 +7,57 @@
     </v-row>
     <v-row>
       <v-col cols="12" sm="6" offset-sm="3">
-        <v-form @submit.prevent="onCreateMeetup">
+        <v-form @submit.prevent="onCreateMeetup" v-model="valid">
           <v-row>
             <v-col>
               <v-text-field
+                :rules="titleRules"
                 label="Title"
                 name="title"
                 id="title"
+                prepend-icon="title"
                 v-model="title"
-                required
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
               <v-text-field
+                :rules="locationRules"
                 label="Location"
                 name="location"
                 id="location"
+                prepend-icon="room"
                 v-model="location"
-                required
               ></v-text-field>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-text-field
+              <v-file-input
+                :rules="imageRules"
+                accept="image/png, image/jpeg, image/bmp"
+                placeholder="Pick an image"
+                prepend-icon="mdi-camera"
                 label="Image"
-                name="image"
-                id="image"
-                v-model="image"
-                required
-              ></v-text-field>
+                @change="onFilePicked"
+              ></v-file-input>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <v-img :src="image" height="150" v-if="image"></v-img>
+              <v-img :src="imageUrl" height="150" v-if="image"></v-img>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
               <v-textarea
+                :rules="descriptionRules"
                 label="Description"
                 name="description"
                 id="description"
+                prepend-icon="text_snippet"
                 v-model="description"
-                required
               ></v-textarea>
             </v-col>
           </v-row>
@@ -88,10 +92,25 @@ export default {
   name: "NewMeetup",
   data() {
     return {
+      valid: false,
       title: '',
+      titleRules: [
+        v => !!v || 'Title is required'
+      ],
       location: '',
-      image: '',
+      locationRules: [
+        v => !!v || 'Location is required'
+      ],
+      image: null,
+      imageUrl: '',
+      imageRules: [
+        v => !!v || 'Image is required',
+        v => !v || v.size < 2000000 || 'Image size should be less than 2 MB!'
+      ],
       description: '',
+      descriptionRules: [
+        v => !!v || 'Description is required'
+      ],
       date: new Date().toISOString().substr(0, 10),
       time: new Date()
     }
@@ -133,7 +152,20 @@ export default {
 
       this.$store.dispatch('createMeetup', meetup);
       this.$router.push('/meetups');
-    }
+    },
+    onFilePicked (event) {
+        if (event) {
+          const file = event
+          const fileReader = new FileReader()
+          fileReader.addEventListener('load', () => {
+            this.imageUrl = fileReader.result
+          });
+          fileReader.readAsDataURL(file)
+          this.image = file
+        } else {
+          this.imageUrl = ''
+        }
+      }
   }
 }
 </script>

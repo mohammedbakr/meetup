@@ -28,7 +28,6 @@ const actions = {
       .catch(err => {
         commit('setLoading', false)
         commit('setError', err)
-        console.log(err)
       })
   },
   signIn: ({commit}, payload) => {
@@ -46,7 +45,6 @@ const actions = {
       .catch(err => {
         commit('setLoading', false)
         commit('setError', err)
-        console.log(err)
       })
   },
   autoSignIn: ({commit}, payload) => commit('setUser', {

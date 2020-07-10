@@ -29,16 +29,35 @@ const actions = {
     const meetup = {
       title: payload.title,
       location: payload.location,
-      src: payload.image,
       description: payload.description,
       date: payload.date.toISOString(),
       creator_id: getters.user.id
     }
+    let imageUrl;
+    let key;
+    let ext;
     firebase.database().ref('meetups').push(meetup)
       .then(data => {
-        const key = data.key;
+        key = data.key;
+        return key;
+      })
+      .then(key => {
+        const fileName = payload.image.name;
+        ext = fileName.slice(fileName.lastIndexOf('.'))
+        return firebase.storage().ref('meetups/' + key + '.' + ext).put(payload.image)
+      })
+      .then(() => {
+        return firebase.storage().ref('meetups/' + key + '.' + ext).getDownloadURL()
+      })
+      .then(url => {
+        return firebase.database().ref('meetups').child(key).update({
+          imageUrl: url
+        })
+      })
+      .then(() => {
         commit('setMeetup', {
           ...meetup,
+          imageUrl: imageUrl,
           id: key
         });
       })
@@ -56,7 +75,7 @@ const actions = {
             id: key,
             title: obj[key].title,
             description: obj[key].description,
-            src: obj[key].src,
+            imageUrl: obj[key].imageUrl,
             location: obj[key].location,
             date: obj[key].date,
             creator_id: obj[key].creator_id

@@ -22,7 +22,7 @@
           <v-carousel-item
             v-for="(meetup) in meetups"
             :key="meetup.id"
-            :src="meetup.src"
+            :src="meetup.imageUrl"
             reverse-transition="fade-transition"
             transition="fade-transition"
             style="cursor: pointer;"

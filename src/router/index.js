@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/Home'
 import Meetups from '@/views/meetup/Meetups'
-import NewMeetup from '@/components/NewMeetup'
+import NewMeetup from '@/views/meetup/NewMeetup'
 import Meetup from '@/views/meetup/Meetup'
 import Profile from '@/views/user/Profile'
 import Signin from '@/views/user/Signin'
