@@ -55,7 +55,7 @@ export default {
   computed: {
     ...mapGetters({
       meetups: 'featuredMeetups',
-      loading: 'loadingMeetups'
+      loading: 'loading'
     })
   }
 }

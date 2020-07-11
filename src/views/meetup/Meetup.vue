@@ -34,7 +34,9 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn class="primary pa-3">Register</v-btn>
+            <div>
+              <app-register-dialog :meetupId="meetup.id" v-if="authinticatedUser && !userIsCreator"></app-register-dialog>
+            </div>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -46,13 +48,15 @@
 import EditMeetupDetailsDialog from '@/components/meetup/edit/EditMeetupDetailsDialog';
 import EditMeetupDateDialog from '@/components/meetup/edit/EditMeetupDateDialog';
 import EditMeetupTimeDialog from '@/components/meetup/edit/EditMeetupTimeDialog';
+import RegisterDialog from '@/components/meetup/registration/RegisterDialog';
 
 export default {
   name: "Meetup",
   components: {
     AppEditMeetupDetailsDialog: EditMeetupDetailsDialog,
     AppEditMeetupDateDialog: EditMeetupDateDialog,
-    AppEditMeetupTimeDialog: EditMeetupTimeDialog
+    AppEditMeetupTimeDialog: EditMeetupTimeDialog,
+    AppRegisterDialog: RegisterDialog
   },
   props: ['id'],
   computed: {

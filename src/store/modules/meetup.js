@@ -2,8 +2,6 @@ import * as firebase from 'firebase'
 
 const state = {
   meetups: [],
-  loading: false,
-  error: null
 };
 
 const getters = {
@@ -20,8 +18,6 @@ const getters = {
       })
     }
   },
-  loadingMeetups: state => state.loading,
-  errorLoadingMeetups: state => state.error
 };
 
 const actions = {
@@ -128,11 +124,7 @@ const mutations = {
     if (payload.date) {
       meetup.date = payload.date
     }
-  },
-  setLoading: (state, payload) => state.loading = payload,
-  setError: (state, payload) => state.error = payload,
-  clearError: state => state.error = null
-
+  }
 };
 
 export default {

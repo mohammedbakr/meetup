@@ -74,8 +74,8 @@ export default {
   methods: {
     onLogout() {
       this.$store.dispatch('logout')
-      if(this.$router.path !==  '/') {
-        this.$router.replace('/')
+      if(this.$route.path !==  '/') {
+        this.$router.push('/')
       }
     }
   }
