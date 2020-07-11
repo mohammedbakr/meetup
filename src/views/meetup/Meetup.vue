@@ -21,7 +21,14 @@
             height="400"
             :src="meetup.imageUrl"
           ></v-img>
-          <v-card-subtitle>{{ meetup.date | date }} - {{ meetup.location }}</v-card-subtitle>
+          <v-card-subtitle>
+            {{ meetup.date | date }} - {{ meetup.location }}
+            <v-spacer></v-spacer>
+            <div v-if="userIsCreator" class="d-inline-flex">
+              <app-edit-meetup-date-dialog :meetup="meetup"></app-edit-meetup-date-dialog>
+              <app-edit-meetup-time-dialog :meetup="meetup" class="ml-2"></app-edit-meetup-time-dialog>
+            </div>
+          </v-card-subtitle>
           <v-card-text class="black--text">
             <div>{{ meetup.description }}</div>
           </v-card-text>
@@ -37,11 +44,15 @@
 
 <script>
 import EditMeetupDetailsDialog from '@/components/meetup/edit/EditMeetupDetailsDialog';
+import EditMeetupDateDialog from '@/components/meetup/edit/EditMeetupDateDialog';
+import EditMeetupTimeDialog from '@/components/meetup/edit/EditMeetupTimeDialog';
 
 export default {
   name: "Meetup",
   components: {
-    AppEditMeetupDetailsDialog: EditMeetupDetailsDialog
+    AppEditMeetupDetailsDialog: EditMeetupDetailsDialog,
+    AppEditMeetupDateDialog: EditMeetupDateDialog,
+    AppEditMeetupTimeDialog: EditMeetupTimeDialog
   },
   props: ['id'],
   computed: {

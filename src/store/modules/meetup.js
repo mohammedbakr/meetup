@@ -72,8 +72,8 @@ const actions = {
     if (payload.description) {
       meetup.description = payload.description
     }
-    if (payload.data) {
-      meetup.data = payload.data
+    if (payload.date) {
+      meetup.date = payload.date
     }
     firebase.database().ref('meetups').child(payload.id).update(meetup)
       .then(() => {
@@ -125,8 +125,8 @@ const mutations = {
     if (payload.description) {
       meetup.description = payload.description
     }
-    if (payload.data) {
-      meetup.data = payload.data
+    if (payload.date) {
+      meetup.date = payload.date
     }
   },
   setLoading: (state, payload) => state.loading = payload,
