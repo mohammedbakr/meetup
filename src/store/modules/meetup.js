@@ -63,6 +63,28 @@ const actions = {
       })
       .catch(error => console.log(error))
   },
+  updateMeetupDetails: ({commit}, payload) => {
+    commit('setLoading', true)
+    const meetup = {}
+    if (payload.title) {
+      meetup.title = payload.title
+    }
+    if (payload.description) {
+      meetup.description = payload.description
+    }
+    if (payload.data) {
+      meetup.data = payload.data
+    }
+    firebase.database().ref('meetups').child(payload.id).update(meetup)
+      .then(() => {
+        commit('setLoading', false)
+        commit('updateMeetup', payload)
+      })
+      .catch(error => {
+        commit('setLoading', false)
+        console.log(error)
+      })
+  },
   loadMeetups: ({commit}) => {
     commit('setLoading', true)
     firebase.database().ref('meetups').once('value')
@@ -93,6 +115,20 @@ const actions = {
 const mutations = {
   setMeetup: (state, payload) => state.meetups.push(payload),
   setMeetups: (state, payload) => state.meetups = payload,
+  updateMeetup: (state, payload) => {
+    const meetup = state.meetups.find(meetup => {
+      return meetup.id === payload.id
+    });
+    if (payload.title) {
+      meetup.title = payload.title
+    }
+    if (payload.description) {
+      meetup.description = payload.description
+    }
+    if (payload.data) {
+      meetup.data = payload.data
+    }
+  },
   setLoading: (state, payload) => state.loading = payload,
   setError: (state, payload) => state.error = payload,
   clearError: state => state.error = null

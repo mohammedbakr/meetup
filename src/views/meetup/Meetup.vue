@@ -1,9 +1,22 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12">
+    <v-row v-if="loading">
+      <v-col cols="12" align="center">
+        <v-progress-circular indeterminate width="5" size="60"></v-progress-circular>
+      </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col cols="12" sm="8" offset-sm="2" md="10" offset-md="1">
         <v-card>
-          <v-card-title>{{ meetup.title }}</v-card-title>
+          <v-card-title>
+            {{ meetup.title }}
+            <template v-if="userIsCreator">
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+              <v-spacer></v-spacer>
+              <app-edit-meetup-details-dialog :meetup="meetup"></app-edit-meetup-details-dialog>
+            </template>
+          </v-card-title>
           <v-img
             height="400"
             :src="meetup.imageUrl"
@@ -23,12 +36,31 @@
 </template>
 
 <script>
+import EditMeetupDetailsDialog from '@/components/meetup/edit/EditMeetupDetailsDialog';
+
 export default {
   name: "Meetup",
+  components: {
+    AppEditMeetupDetailsDialog: EditMeetupDetailsDialog
+  },
   props: ['id'],
   computed: {
     meetup() {
       return this.$store.getters.meetup(this.id)
+    },
+    authinticatedUser() {
+      return this.$store.getters.user !== null &&
+             this.$store.getters.user !== undefined
+    },
+    userIsCreator() {
+      if (!this.authinticatedUser) {
+        return false;
+      } else {
+        return this.$store.getters.user.id === this.meetup.creator_id
+      }
+    },
+    loading() {
+      return this.$store.getters.loading
     }
   }
 }

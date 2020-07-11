@@ -46,7 +46,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-img :src="imageUrl" height="150" v-if="image"></v-img>
+              <v-img :src="imageUrl" height="150" v-if="imageUrl"></v-img>
             </v-col>
           </v-row>
           <v-row>
@@ -95,11 +95,11 @@ export default {
       valid: false,
       title: '',
       titleRules: [
-        v => !!v || 'Title is required'
+        v => !!v.trim() || 'Title is required'
       ],
       location: '',
       locationRules: [
-        v => !!v || 'Location is required'
+        v => !!v.trim() || 'Location is required'
       ],
       image: null,
       imageUrl: '',
@@ -109,7 +109,7 @@ export default {
       ],
       description: '',
       descriptionRules: [
-        v => !!v || 'Description is required'
+        v => !!v.trim() || 'Description is required'
       ],
       date: new Date().toISOString().substr(0, 10),
       time: new Date()
@@ -117,10 +117,10 @@ export default {
   },
   computed: {
     formIsValid() {
-      return this.title !== '' &&
-              this.location !== '' &&
-              this.image !== '' &&
-              this.description !== ''
+      return this.title.trim() !== '' &&
+              this.location.trim() !== '' &&
+              this.imageUrl !== '' &&
+              this.description.trim() !== ''
     },
     submitableDateTime() {
       const date = new Date(this.date);
@@ -140,6 +140,9 @@ export default {
   methods: {
     onCreateMeetup() {
       if (!this.formIsValid) {
+        return;
+      }
+      if (!this.image) {
         return;
       }
       const meetup = {

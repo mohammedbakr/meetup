@@ -17,7 +17,7 @@
     </v-row>
 
     <v-row v-if="!loading">
-      <v-col cols="12">
+      <v-col cols="12" sm="8" offset-sm="2" md="10" offset-md="1">
         <v-carousel>
           <v-carousel-item
             v-for="(meetup) in meetups"
