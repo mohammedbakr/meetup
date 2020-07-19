@@ -61,7 +61,7 @@ export default {
         navItems = [
           { icon: "supervisor_account", title: "Show Meetups", link: "/meetups" },
           { icon: "room", title: "Organize Meetup", link: "/meetup/new" },
-          { icon: "person", title: "Profile", link: "/profile" },
+          // { icon: "person", title: "Profile", link: "/profile" },
         ]
       }
       return navItems

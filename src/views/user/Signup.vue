@@ -31,9 +31,12 @@
                       label="Password"
                       id="password"
                       v-model="password"
-                      type="password"
                       :rules="passwordRules"
                       prepend-icon="lock"
+                      :append-icon="value ? 'visibility' : 'visibility_off'"
+                      @click:append="() => (value = !value)"
+                      :type="value ? 'password' : 'text'"
+                      :value="password"
                       ></v-text-field>
                   </v-col>
                 </v-row>
@@ -44,9 +47,12 @@
                       label="confirm Password"
                       id="confirm_password"
                       v-model="confirmPassword"
-                      type="password"
                       :rules="[comparePasswords]"
                       prepend-icon="lock"
+                      :append-icon="confirmValue ? 'visibility' : 'visibility_off'"
+                      @click:append="() => (confirmValue = !confirmValue)"
+                      :type="confirmValue ? 'password' : 'text'"
+                      :value="confirmPassword"
                       ></v-text-field>
                   </v-col>
                 </v-row>
@@ -84,6 +90,8 @@ export default {
   data() {
     return {
       valid: false,
+      value: String,
+      confirmValue: String,
       email: '',
       emailRules: [
         v => !!v || 'E-mail is required',
